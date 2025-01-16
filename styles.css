@@ -1,0 +1,500 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+:root {
+  --main-bg-color: #000;
+  --main-text-color: #fff;
+  --button-min-width: 120px;
+  --button-min-height: 80px;
+}
+
+body {
+  font-family: "Orbitron", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  overflow-x: hidden;
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.volume-control-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.volume-control-container label {
+  margin-right: 15px;
+  font-size: 1.2rem;
+  color: #00ffff;
+}
+
+.volume-slider-container {
+  position: relative;
+  width: 300px;
+  height: 10px;
+}
+
+#volume-control {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: transparent;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  margin: 0;
+}
+
+#volume-control:hover {
+  opacity: 1;
+}
+
+#volume-control::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #00ffff;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+#volume-control::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #00ffff;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.volume-slider-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, #00ffff, #00ffff);
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+#volume-control::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  background: #333333;
+  border-radius: 5px;
+}
+
+#volume-control::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  cursor: pointer;
+  background: #333333;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 600px;
+  padding: 1rem;
+}
+
+button {
+  padding: 1rem;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: var(--button-min-width);
+  min-height: var(--button-min-height);
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.big-button {
+  width: 150px;
+  height: 150px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  transition: all 0.3s ease;
+  position: relative;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 1px;
+}
+
+.big-button-on {
+  background-color: #00ff00;
+  color: black;
+  box-shadow: 0 9px #006400, 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.big-button-off {
+  background-color: #ff0000;
+  color: white;
+  box-shadow: 0 9px #8b0000, 0 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.big-button:hover {
+  opacity: 0.9;
+}
+
+.big-button:active {
+  box-shadow: 0 5px #006400, 0 6px 6px rgba(0, 0, 0, 0.4);
+  transform: translateY(4px);
+}
+
+.big-button::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0) 70%
+  );
+  pointer-events: none;
+}
+
+#asteroid-doppler,
+#star-twinkle,
+#gravity-well,
+#nebula-resonance,
+#cosmic-pulsar,
+#quasar-pulse,
+#quantum-flux,
+#alien-signal,
+#dark-energy-hum {
+  font-family: "Orbitron", sans-serif;
+  /* Add any other common styles for effect buttons here */
+  font-size: 0.8 rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+/* Button-specific styles */
+#asteroid-doppler {
+  background: radial-gradient(circle at 30% 30%, #8b4513, #a0522d, #d2691e);
+  color: #fff;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+#asteroid-doppler:hover {
+  transform: rotate(5deg) scale(1.05);
+  animation: asteroid-jiggle 0.5s ease-in-out infinite;
+}
+
+#asteroid-doppler.playing {
+  animation: asteroid-pulse 2s infinite alternate;
+}
+
+@keyframes asteroid-pulse {
+  0% {
+    box-shadow: 0 0 5px #ffa500, inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+      inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 20px #ffa500, inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+      inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes asteroid-jiggle {
+  0%,
+  100% {
+    transform: rotate(5deg) scale(1.05) translate(0, 0);
+  }
+  25% {
+    transform: rotate(6deg) scale(1.05) translate(2px, 2px);
+  }
+  50% {
+    transform: rotate(5deg) scale(1.05) translate(0, 0);
+  }
+  75% {
+    transform: rotate(4deg) scale(1.05) translate(-2px, 2px);
+  }
+}
+
+#star-twinkle {
+  background-color: #000011; /* Very dark blue background */
+  color: #ffffff; /* White text */
+  border: 1px solid #ffffff; /* Thin white border */
+  box-shadow: 0 0 5px #ffffff, inset 0 0 5px #ffffff; /* Glow effect */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+#star-twinkle::before,
+#star-twinkle::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background-image: radial-gradient(
+      1px 1px at 10px 10px,
+      #ffffff,
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(1px 1px at 20px 30px, #ffffaa, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 30px 50px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 40px 70px, #ffffaa, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 50px 90px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 60px 110px, #ffffaa, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 70px 130px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 80px 150px, #ffffaa, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 90px 170px, #ffffff, rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 100px 190px, #ffffaa, rgba(0, 0, 0, 0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+#star-twinkle::before {
+  animation: twinkle 4s infinite steps(20);
+}
+
+#star-twinkle::after {
+  animation: twinkle 3s infinite steps(20);
+  animation-delay: 0.5s;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+#star-twinkle:hover::before,
+#star-twinkle:hover::after {
+  animation-duration: 1s; /* Much faster twinkle on hover */
+}
+
+#star-twinkle:hover {
+  background-color: #000022; /* Slightly lighter background on hover */
+  box-shadow: 0 0 10px #ffffff, inset 0 0 10px #ffffff; /* Increased glow on hover */
+}
+
+#star-twinkle span {
+  position: relative;
+  z-index: 1;
+}
+
+#gravity-well {
+  background: conic-gradient(from 0deg, #000, #00f, #000);
+  color: #fff;
+  border-radius: 10px;
+}
+
+#nebula-resonance {
+  background: radial-gradient(circle, #ff00ff, #8a2be2);
+  position: relative;
+  overflow: hidden;
+}
+
+#nebula-resonance::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: linear-gradient(#00ffff 1px, transparent 1px),
+    linear-gradient(90deg, #00ffff 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  transition: opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+#nebula-resonance:hover::after {
+  opacity: 0.6;
+  box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+}
+
+#cosmic-pulsar {
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.2em;
+}
+
+#cosmic-pulsar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #00ffff;
+  border-radius: 50%;
+  animation: cosmic-spot-pulse 4s infinite;
+}
+
+#cosmic-pulsar.playing::before {
+  animation: cosmic-spot-pulse-fast 0.5s infinite; /* Changed from 2s to 0.5s */
+}
+
+#cosmic-pulsar span {
+  position: relative;
+  z-index: 1;
+  animation: cosmic-text-pulse 4s infinite;
+}
+
+@keyframes cosmic-spot-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 0 30px 10px rgba(0, 255, 255, 0.7);
+  }
+}
+
+@keyframes cosmic-spot-pulse-fast {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2);
+    box-shadow: 0 0 50px 20px rgba(0, 255, 255, 0.7);
+  }
+}
+
+#quasar-pulse {
+  background-color: #001800; /* Dark green background */
+  color: #00ff00; /* Bright green text */
+  position: relative;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 0 0 1px #00ff00, /* Innermost rectangle */ 0 0 0 2px #001800,
+    /* Space between rectangles */ 0 0 0 3px #00aa00,
+    /* Middle rectangle */ 0 0 0 4px #001800,
+    /* Space between rectangles */ 0 0 0 5px #005500; /* Outermost rectangle (will pulse) */
+  animation: quasar-pulse 4s infinite;
+}
+
+@keyframes quasar-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px #00ff00, 0 0 0 2px #001800, 0 0 0 3px #00aa00,
+      0 0 0 4px #001800, 0 0 0 5px #005500;
+  }
+  50% {
+    box-shadow: 0 0 0 1px #00ff00, 0 0 0 2px #001800, 0 0 0 3px #00aa00,
+      0 0 0 4px #001800, 0 0 0 15px #005500,
+      /* Expanded outer rectangle, slightly less thick */ 0 0 10px 16px #005500; /* Glow effect */
+  }
+}
+
+#quasar-pulse:hover {
+  animation-duration: 2s; /* Faster pulse on hover */
+}
+
+#quasar-pulse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, transparent 30%, #001800 70%);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+#quasar-pulse span {
+  position: relative;
+  z-index: 2;
+}
+
+#quantum-flux {
+  background: repeating-linear-gradient(
+    45deg,
+    #000,
+    #000 10px,
+    #ff0 10px,
+    #ff0 20px
+  );
+  color: #000;
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff;
+  font-weight: bold;
+}
+
+.alien-signal {
+  background-color: #222;
+  color: #0f0;
+  border: 2px solid #0f0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+}
+
+.alien-signal:hover {
+  text-shadow: 0 0 10px #0f0;
+  box-shadow: 0 0 15px #0f0;
+}
+
+#dark-energy-hum {
+  background: linear-gradient(to right, #4b0082, #800080);
+  color: #fff;
+  border-radius: 15px 0 15px 0;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+  }
+}

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Space Sounds Generator</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        overflow-x: hidden;
+      }
+      h1 {
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        text-shadow: 0 0 10px #00ffff;
+      }
+      .button-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        max-width: 800px;
+        padding: 1rem;
+      }
+      button {
+        padding: 1rem;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        min-width: 150px;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      #cosmic-waves {
+        background: linear-gradient(45deg, #ff00ff, #00ffff);
+        color: #000;
+        border-radius: 50px 0 50px 0;
+      }
+      #star-twinkle {
+        background-color: #000;
+        color: #fff;
+        border: 2px solid #fff;
+        box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+      }
+      #black-hole {
+        background-color: #111;
+        color: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 20px #000 inset, 0 0 10px #fff;
+      }
+      #nebula-whisper {
+        background: radial-gradient(circle, #ff00ff, #0000ff);
+        color: #fff;
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+      }
+      #asteroid-field {
+        background-color: #333;
+        color: #fff;
+        border: 2px solid #888;
+        transform: skew(-10deg);
+      }
+      #quasar-pulse {
+        background-color: #00ff00;
+        color: #000;
+        animation: pulse 2s infinite;
+      }
+      #wormhole-transit {
+        background: conic-gradient(
+          from 0deg,
+          #ff0000,
+          #ff7f00,
+          #ffff00,
+          #00ff00,
+          #0000ff,
+          #8b00ff,
+          #ff0000
+        );
+        color: #fff;
+        border-radius: 10px;
+      }
+      #alien-transmission {
+        background-color: #222;
+        color: #0f0;
+        border: 2px solid #0f0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Space Sounds Generator</h1>
+    <div class="button-container">
+      <button id="cosmic-waves" onclick="playSound('cosmic-waves')">
+        Cosmic Waves
+      </button>
+      <button id="star-twinkle" onclick="playSound('star-twinkle')">
+        Star Twinkle
+      </button>
+      <button id="black-hole" onclick="playSound('black-hole')">
+        Black Hole
+      </button>
+      <button id="nebula-whisper" onclick="playSound('nebula-whisper')">
+        Nebula Whisper
+      </button>
+      <button id="asteroid-field" onclick="playSound('asteroid-field')">
+        Asteroid Field
+      </button>
+      <button id="quasar-pulse" onclick="playSound('quasar-pulse')">
+        Quasar Pulse
+      </button>
+      <button id="wormhole-transit" onclick="playSound('wormhole-transit')">
+        Wormhole Transit
+      </button>
+      <button id="alien-transmission" onclick="playSound('alien-transmission')">
+        Alien Transmission
+      </button>
+    </div>
+
+    <script>
+      let audioContext;
+      let currentSound;
+
+      function initAudio() {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      function stopCurrentSound() {
+        if (currentSound) {
+          currentSound.stop();
+          currentSound.disconnect();
+        }
+      }
+
+      function playSound(soundType) {
+        if (!audioContext) initAudio();
+        stopCurrentSound();
+
+        switch (soundType) {
+          case "cosmic-waves":
+            currentSound = cosmicWaves();
+            break;
+          case "star-twinkle":
+            currentSound = starTwinkle();
+            break;
+          case "black-hole":
+            currentSound = blackHole();
+            break;
+          case "nebula-whisper":
+            currentSound = nebulaWhisper();
+            break;
+          case "asteroid-field":
+            currentSound = asteroidField();
+            break;
+          case "quasar-pulse":
+            currentSound = quasarPulse();
+            break;
+          case "wormhole-transit":
+            currentSound = wormholeTransit();
+            break;
+          case "alien-transmission":
+            currentSound = alienTransmission();
+            break;
+        }
+      }
+
+      function cosmicWaves() {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(50, audioContext.currentTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(
+          0.5,
+          audioContext.currentTime + 0.1
+        );
+
+        oscillator.start();
+
+        setInterval(() => {
+          oscillator.frequency.exponentialRampToValueAtTime(
+            50 + Math.random() * 20,
+            audioContext.currentTime + 0.5
+          );
+        }, 500);
+
+        return oscillator;
+      }
+
+      function starTwinkle() {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+
+        const twinkle = () => {
+          gainNode.gain.linearRampToValueAtTime(
+            0.2,
+            audioContext.currentTime + 0.1
+          );
+          gainNode.gain.linearRampToValueAtTime(
+            0,
+            audioContext.currentTime + 0.3
+          );
+          oscillator.frequency.setValueAtTime(
+            800 + Math.random() * 500,
+            audioContext.currentTime
+          );
+        };
+
+        oscillator.start();
+        setInterval(twinkle, 300);
+
+        return oscillator;
+      }
+
+      function blackHole() {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+
+        oscillator.start();
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+          1,
+          audioContext.currentTime + 10
+        );
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 10
+        );
+
+        return oscillator;
+      }
+
+      function nebulaWhisper() {
+        const noise = audioContext.createBufferSource();
+        const buffer = audioContext.createBuffer(
+          1,
+          audioContext.sampleRate * 2,
+          audioContext.sampleRate
+        );
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < buffer.length; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = audioContext.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.value = 500;
+        filter.Q.value = 0.5;
+
+        const gainNode = audioContext.createGain();
+        gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+
+        noise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        noise.start();
+
+        setInterval(() => {
+          filter.frequency.exponentialRampToValueAtTime(
+            100 + Math.random() * 1000,
+            audioContext.currentTime + 2
+          );
+        }, 2000);
+
+        return noise;
+      }
+
+      function asteroidField() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const masterGain = ctx.createGain();
+        masterGain.connect(ctx.destination);
+        masterGain.gain.setValueAtTime(0.3, ctx.currentTime);
+
+        function createAsteroidSound() {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(
+            100 + Math.random() * 500,
+            ctx.currentTime
+          );
+          osc.connect(gain);
+          gain.connect(masterGain);
+
+          gain.gain.setValueAtTime(0, ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.01);
+          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.1);
+        }
+
+        const interval = setInterval(createAsteroidSound, 200);
+
+        return {
+          stop: () => {
+            clearInterval(interval);
+            masterGain.disconnect();
+          },
+          disconnect: () => masterGain.disconnect(),
+        };
+      }
+
+      function quasarPulse() {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(50, audioContext.currentTime);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+
+        osc.start();
+
+        function pulse() {
+          gain.gain.exponentialRampToValueAtTime(
+            0.3,
+            audioContext.currentTime + 0.5
+          );
+          gain.gain.exponentialRampToValueAtTime(
+            0.1,
+            audioContext.currentTime + 1
+          );
+          osc.frequency.exponentialRampToValueAtTime(
+            100,
+            audioContext.currentTime + 0.5
+          );
+          osc.frequency.exponentialRampToValueAtTime(
+            50,
+            audioContext.currentTime + 1
+          );
+        }
+
+        setInterval(pulse, 1000);
+
+        return osc;
+      }
+
+      function wormholeTransit() {
+        const noise = audioContext.createBufferSource();
+        const buffer = audioContext.createBuffer(
+          1,
+          audioContext.sampleRate * 5,
+          audioContext.sampleRate
+        );
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < buffer.length; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = audioContext.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(100, audioContext.currentTime);
+
+        const gain = audioContext.createGain();
+        gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioContext.destination);
+
+        noise.start();
+
+        function sweep() {
+          filter.frequency.exponentialRampToValueAtTime(
+            5000,
+            audioContext.currentTime + 2.5
+          );
+          filter.frequency.exponentialRampToValueAtTime(
+            100,
+            audioContext.currentTime + 5
+          );
+        }
+
+        setInterval(sweep, 5000);
+
+        return noise;
+      }
+
+      function alienTransmission() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const masterGain = ctx.createGain();
+        masterGain.connect(ctx.destination);
+        masterGain.gain.setValueAtTime(0.3, ctx.currentTime);
+
+        function createBeep() {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(
+            440 + Math.random() * 880,
+            ctx.currentTime
+          );
+          osc.connect(gain);
+          gain.connect(masterGain);
+
+          gain.gain.setValueAtTime(0, ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+
+          osc.start(ctx.currentTime);
+          osc.stop(ctx.currentTime + 0.1);
+        }
+
+        const interval = setInterval(() => {
+          createBeep();
+          if (Math.random() > 0.7) createBeep(); // Occasional double beep
+        }, 200);
+
+        return {
+          stop: () => {
+            clearInterval(interval);
+            masterGain.disconnect();
+          },
+          disconnect: () => masterGain.disconnect(),
+        };
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enhanced Space Sounds Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Space Sounds Generator</h1>
+    <div class="control-panel">
+      <button id="all-sounds-toggle" class="big-button">All Sounds On</button>
+
+      <div class="volume-control-container">
+        <label for="volume-control">Volume</label>
+        <div class="volume-slider-container">
+          <input
+            type="range"
+            id="volume-control"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.5"
+          />
+          <div class="volume-slider-fill"></div>
+        </div>
+      </div>
+    </div>
+    <div class="button-container" id="soundButtons">
+      <button id="asteroid-doppler">Asteroid Doppler</button>
+      <button id="star-twinkle"><span>Star Twinkle</span></button>
+      <button id="gravity-well">Gravity Well</button>
+      <button id="nebula-resonance">Nebula Resonance</button>
+      <button id="cosmic-pulsar">Cosmic Pulsar</button>
+      <button id="quasar-pulse"><span>Quasar Pulse</span></button>
+      <button id="quantum-flux">Quantum Flux</button>
+      <button id="alien-transmission" class="space-button alien-signal">
+        Alien Signal
+      </button>
+      <button id="dark-energy-hum">Dark Energy Hum</button>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
