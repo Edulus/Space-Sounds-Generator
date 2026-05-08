@@ -249,7 +249,7 @@ const drawers = {
       state.particles = [];
     }
     // spawn
-    if (Math.random() < 0.6) {
+    if (Math.random() < 0.69) {
       state.particles.push({
         x: Math.random() * W,
         y: Math.random() * H,
