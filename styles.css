@@ -308,22 +308,31 @@ button {
   left: -50%;
   right: -50%;
   bottom: -50%;
-  background-image: radial-gradient(
-      1px 1px at 10px 10px,
-      #ffffff,
-      rgba(0, 0, 0, 0)
-    ),
-    radial-gradient(1px 1px at 20px 30px, #ffffaa, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 30px 50px, #ffffff, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 40px 70px, #ffffaa, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 50px 90px, #ffffff, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 60px 110px, #ffffaa, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 70px 130px, #ffffff, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 80px 150px, #ffffaa, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 90px 170px, #ffffff, rgba(0, 0, 0, 0)),
-    radial-gradient(1px 1px at 100px 190px, #ffffaa, rgba(0, 0, 0, 0));
+  background-image:
+    radial-gradient(1px 1px at 8px 12px,    #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 22px 28px, #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 35px 8px,    #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 48px 42px,   #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 60px 18px,   #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 72px 60px,   #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 88px 30px,   #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 14px 70px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 28px 90px,   #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 42px 105px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 58px 130px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 76px 95px,   #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 90px 118px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 18px 145px, #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 38px 162px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 54px 178px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 70px 150px,  #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 84px 184px,  #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 96px 168px,  #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 6px 50px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 100px 76px,  #ffffaa, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 110px 140px, #ffffff, rgba(0,0,0,0));
   background-repeat: repeat;
-  background-size: 200px 200px;
+  background-size: 120px 200px;
 }
 
 #star-twinkle::before {
@@ -367,28 +376,22 @@ button {
 }
 
 #nebula-resonance {
-  background: radial-gradient(circle, #ff00ff, #8a2be2);
+  background-color: #0a0020;
+  background-image:
+    radial-gradient(ellipse 60% 70% at 20% 30%, rgba(255, 60, 200, 0.85), rgba(255, 60, 200, 0) 70%),
+    radial-gradient(ellipse 70% 60% at 80% 25%, rgba(80, 180, 255, 0.75), rgba(80, 180, 255, 0) 70%),
+    radial-gradient(ellipse 80% 70% at 60% 80%, rgba(255, 200, 80, 0.65), rgba(255, 200, 80, 0) 70%),
+    radial-gradient(ellipse 60% 60% at 25% 85%, rgba(180, 80, 255, 0.7), rgba(180, 80, 255, 0) 70%),
+    radial-gradient(ellipse 50% 50% at 85% 70%, rgba(80, 255, 200, 0.55), rgba(80, 255, 200, 0) 70%);
+  color: #fff;
+  text-shadow: 0 0 4px #000, 0 0 10px #000;
   position: relative;
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
-#nebula-resonance::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: linear-gradient(#00ffff 1px, transparent 1px),
-    linear-gradient(90deg, #00ffff 1px, transparent 1px);
-  background-size: 20px 20px;
-  opacity: 0.3;
-  transition: opacity 0.3s ease, box-shadow 0.3s ease;
-}
-
-#nebula-resonance:hover::after {
-  opacity: 0.6;
-  box-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff;
+#nebula-resonance:hover {
+  box-shadow: 0 0 15px #ff00ff, 0 0 30px rgba(80, 180, 255, 0.6);
 }
 
 #cosmic-pulsar {
@@ -526,9 +529,15 @@ button {
 }
 
 #dark-energy-hum {
-  background: linear-gradient(to right, #4b0082, #800080);
+  background-color: #160028;
+  background-image:
+    linear-gradient(to right, rgba(75, 0, 130, 0.6), rgba(128, 0, 128, 0.6)),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'><path d='M0 40 Q 25 10 50 40 T 100 40 T 150 40 T 200 40' fill='none' stroke='%23c080ff' stroke-width='2' opacity='0.85'/><path d='M0 50 Q 25 20 50 50 T 100 50 T 150 50 T 200 50' fill='none' stroke='%23a060e0' stroke-width='2' opacity='0.7'/><path d='M0 30 Q 25 60 50 30 T 100 30 T 150 30 T 200 30' fill='none' stroke='%23e0a0ff' stroke-width='1.5' opacity='0.6'/><path d='M0 60 Q 25 35 50 60 T 100 60 T 150 60 T 200 60' fill='none' stroke='%239050d0' stroke-width='1.5' opacity='0.55'/></svg>");
+  background-size: 100% 100%, 100% 100%;
   color: #fff;
+  text-shadow: 0 0 4px #000, 0 0 10px #4b0082;
   border-radius: 15px 0 15px 0;
+  box-shadow: inset 0 0 12px rgba(192, 128, 255, 0.4);
 }
 
 @keyframes pulse {
