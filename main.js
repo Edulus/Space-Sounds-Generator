@@ -6,8 +6,9 @@ import {
 } from "./audioUtils.js";
 import { createSound, toggleSound } from "./stableUtils.js";
 import { initVolumeControl, getGlobalVolume } from "./volumeControl.js";
+import { startVisualizer, stopVisualizer } from "./visualizers.js";
 
-let audioContext = initAudio();
+let audioContext = null;
 const activeSounds = new Map();
 
 const sounds = {
@@ -110,23 +111,17 @@ const sounds = {
         },
       }
     ),
-  /*
   "gravity-well": (volume) =>
     createSound(
       audioContext,
       (ctx) => {
-        const baseFrequency = 880;
-        const orbitalPeriod = 7; // in seconds
-        const schwarzschildRadius = (2 * 6.6743e-11 * 1.989e30) / (3e8 * 3e8); // for a solar mass black hole
-
-        const osc1 = createOscillator(ctx, "sine", baseFrequency);
-        const osc2 = createOscillator(ctx, "triangle", baseFrequency / 2);
-        const lfo = createOscillator(ctx, "sine", 1 / orbitalPeriod);
-
+        const osc1 = createOscillator(ctx, "sine", 880);
+        const osc2 = createOscillator(ctx, "triangle", 440);
+        const lfo = createOscillator(ctx, "sine", 0.1);
         const noise = ctx.createBufferSource();
         const noiseBuffer = ctx.createBuffer(
           1,
-          ctx.sampleRate * orbitalPeriod,
+          ctx.sampleRate * 5,
           ctx.sampleRate
         );
         const noiseData = noiseBuffer.getChannelData(0);
@@ -135,212 +130,6 @@ const sounds = {
         }
         noise.buffer = noiseBuffer;
         noise.loop = true;
-
-        const gain1 = createGain(ctx, 0.3);
-        const gain2 = createGain(ctx, 0.2);
-        const noiseGain = createGain(ctx, 0.1);
-        const lfoGain = createGain(ctx, 50);
-        const masterGain = createGain(ctx, 0.5);
-        const volumeGain = createGain(ctx, volume);
-
-        lfo.connect(lfoGain);
-        lfoGain.connect(osc1.frequency);
-        lfoGain.connect(osc2.frequency);
-        osc1.connect(gain1);
-        osc2.connect(gain2);
-        noise.connect(noiseGain);
-        gain1.connect(masterGain);
-        gain2.connect(masterGain);
-        noiseGain.connect(masterGain);
-        masterGain.connect(volumeGain);
-        volumeGain.connect(ctx.destination);
-
-        osc1.start();
-        osc2.start();
-        lfo.start();
-        noise.start();
-
-        return [
-          osc1,
-          osc2,
-          lfo,
-          noise,
-          gain1,
-          gain2,
-          noiseGain,
-          lfoGain,
-          masterGain,
-          volumeGain,
-        ];
-      },
-      {
-        interval: 50, // Reduced interval for more frequent updates
-        action: (
-          ctx,
-          [osc1, osc2, lfo, noise, gain1, gain2, noiseGain, lfoGain, masterGain]
-        ) => {
-          const now = ctx.currentTime;
-          const duration = orbitalPeriod;
-          const initialRadius = 10 * schwarzschildRadius;
-          const finalRadius = 2 * schwarzschildRadius;
-
-          // Gravitational time dilation effect
-          const timeDilationFactor = (r) =>
-            Math.sqrt(1 - schwarzschildRadius / r);
-
-          // Frequency shift based on orbital velocity and gravitational time dilation
-          const frequencyShift = (t) => {
-            const r =
-              initialRadius - (initialRadius - finalRadius) * (t / duration);
-            const orbitalVelocity = Math.sqrt((6.6743e-11 * 1.989e30) / r);
-            const dopplerFactor = Math.sqrt(
-              (1 - orbitalVelocity / 3e8) / (1 + orbitalVelocity / 3e8)
-            );
-            return baseFrequency * dopplerFactor * timeDilationFactor(r);
-          };
-
-          // Calculate the current time within the orbital period
-          const t = (now % duration) / duration;
-
-          // Immediate feedback: start with audible frequencies
-          const currentFreq1 = frequencyShift(t);
-          const currentFreq2 = currentFreq1 / 2;
-
-          osc1.frequency.setTargetAtTime(currentFreq1, now, 0.01);
-          osc2.frequency.setTargetAtTime(currentFreq2, now, 0.01);
-
-          // LFO frequency adjustment
-          lfo.frequency.setTargetAtTime(
-            1 / orbitalPeriod + (9 * t) / orbitalPeriod,
-            now,
-            0.01
-          );
-
-          // LFO depth adjustment
-          lfoGain.gain.setTargetAtTime(50 + 150 * t, now, 0.01);
-
-          // Volume changes to simulate increasing intensity
-          const volumeIntensity = 0.5 + 0.5 * t;
-          masterGain.gain.setTargetAtTime(volumeIntensity, now, 0.01);
-
-          // Noise intensity to simulate space-time distortion
-          const noiseIntensity = 0.3 * Math.sin(Math.PI * t);
-          noiseGain.gain.setTargetAtTime(noiseIntensity, now, 0.01);
-        },
-      }
-    ),
-    */
-  // Original gravity well sound effect (commented out for reference)
-
-  "gravity-well": (volume) =>
-    createSound(
-      audioContext,
-      (ctx) => {
-        const osc1 = createOscillator(ctx, "sine", 880);
-        const osc2 = createOscillator(ctx, "triangle", 440);
-        const lfo = createOscillator(ctx, "sine", 0.1);
-        const noise = ctx.createBufferSource();
-        const noiseBuffer = ctx.createBuffer(
-          1,
-          ctx.sampleRate * 5,
-          ctx.sampleRate
-        );
-        const noiseData = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < noiseBuffer.length; i++) {
-          noiseData[i] = Math.random() * 2 - 1;
-        }
-        noise.buffer = noiseBuffer;
-
-        const gain1 = createGain(ctx, 0.3);
-        const gain2 = createGain(ctx, 0.2);
-        const noiseGain = createGain(ctx, 0.1);
-        const lfoGain = createGain(ctx, 10);
-        const masterGain = createGain(ctx, 0.5);
-        const volumeGain = createGain(ctx, volume);
-
-        lfo.connect(lfoGain);
-        lfoGain.connect(osc1.frequency);
-        lfoGain.connect(osc2.frequency);
-
-        osc1.connect(gain1);
-        osc2.connect(gain2);
-        noise.connect(noiseGain);
-
-        gain1.connect(masterGain);
-        gain2.connect(masterGain);
-        noiseGain.connect(masterGain);
-        masterGain.connect(volumeGain);
-        volumeGain.connect(ctx.destination);
-
-        osc1.start();
-        osc2.start();
-        lfo.start();
-        noise.start();
-
-        return [
-          osc1,
-          osc2,
-          lfo,
-          noise,
-          gain1,
-          gain2,
-          noiseGain,
-          masterGain,
-          volumeGain,
-        ];
-      },
-      {
-        interval: 7000,
-        action: (
-          ctx,
-          [osc1, osc2, lfo, noise, gain1, gain2, noiseGain, masterGain]
-        ) => {
-          const now = ctx.currentTime;
-          const duration = 7;
-
-          // Pitch bend
-          osc1.frequency.setValueAtTime(880, now);
-          osc1.frequency.exponentialRampToValueAtTime(55, now + duration * 0.8);
-          osc2.frequency.setValueAtTime(440, now);
-          osc2.frequency.exponentialRampToValueAtTime(
-            27.5,
-            now + duration * 0.8
-          );
-
-          // LFO speed up
-          lfo.frequency.setValueAtTime(0.1, now);
-          lfo.frequency.exponentialRampToValueAtTime(2, now + duration * 0.6);
-
-          // Volume changes
-          masterGain.gain.setValueAtTime(0.5, now);
-          masterGain.gain.linearRampToValueAtTime(1, now + duration * 0.2);
-          masterGain.gain.linearRampToValueAtTime(0, now + duration);
-
-          // Noise fade in and out
-          noiseGain.gain.setValueAtTime(0, now);
-          noiseGain.gain.linearRampToValueAtTime(0.2, now + duration * 0.3);
-          noiseGain.gain.linearRampToValueAtTime(0, now + duration * 0.8);
-        },
-      }
-    ),
-  "gravity-well": (volume) =>
-    createSound(
-      audioContext,
-      (ctx) => {
-        const osc1 = createOscillator(ctx, "sine", 880);
-        const osc2 = createOscillator(ctx, "triangle", 440);
-        const lfo = createOscillator(ctx, "sine", 0.1);
-        const noise = ctx.createBufferSource();
-        const noiseBuffer = ctx.createBuffer(
-          1,
-          ctx.sampleRate * 5,
-          ctx.sampleRate
-        );
-        const noiseData = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < noiseBuffer.length; i++) {
-          noiseData[i] = Math.random() * 2 - 1;
-        }
-        noise.buffer = noiseBuffer;
         const gain1 = createGain(ctx, 0.3);
         const gain2 = createGain(ctx, 0.2);
         const noiseGain = createGain(ctx, 0.1);
@@ -649,6 +438,8 @@ function updateAllSoundsButtonState() {
 }
 
 function handleButtonClick(event) {
+  if (!audioContext) audioContext = initAudio();
+  audioContext.resume();
   if (event.target.id === "all-sounds-toggle") {
     toggleAllSounds();
   } else {
@@ -662,6 +453,8 @@ function handleButtonClick(event) {
         getGlobalVolume()
       );
       button.classList.toggle("playing", isPlaying);
+      if (isPlaying) startVisualizer(soundType);
+      else stopVisualizer(soundType);
       updateAllSoundsButtonState();
     }
   }
@@ -674,6 +467,7 @@ function toggleAllSounds() {
     activeSounds.forEach((sound, soundType) => {
       sound.stop();
       document.getElementById(soundType).classList.remove("playing");
+      stopVisualizer(soundType);
     });
     activeSounds.clear();
   } else {
@@ -682,6 +476,7 @@ function toggleAllSounds() {
         const sound = sounds[soundType](getGlobalVolume());
         activeSounds.set(soundType, sound);
         document.getElementById(soundType).classList.add("playing");
+        startVisualizer(soundType);
       }
     });
   }

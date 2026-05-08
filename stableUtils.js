@@ -1,7 +1,12 @@
-// stableUtils.js
-
 export function createSound(audioContext, setup, loop) {
   const nodes = setup(audioContext);
+
+  const setVolume = (newVolume) => {
+    const volumeNode = nodes[nodes.length - 1];
+    if (volumeNode && volumeNode.gain) {
+      volumeNode.gain.setTargetAtTime(newVolume, audioContext.currentTime, 0.01);
+    }
+  };
 
   if (loop) {
     const intervalId = setInterval(
@@ -11,17 +16,19 @@ export function createSound(audioContext, setup, loop) {
     return {
       stop: () => {
         clearInterval(intervalId);
-        nodes.forEach((node) => node.stop && node.stop());
+        nodes.forEach((node) => { try { node.stop && node.stop(); } catch (e) {} });
         nodes.forEach((node) => node.disconnect && node.disconnect());
       },
+      setVolume,
     };
   }
 
   return {
     stop: () => {
-      nodes.forEach((node) => node.stop && node.stop());
+      nodes.forEach((node) => { try { node.stop && node.stop(); } catch (e) {} });
       nodes.forEach((node) => node.disconnect && node.disconnect());
     },
+    setVolume,
   };
 }
 
@@ -35,14 +42,4 @@ export function toggleSound(activeSounds, sounds, soundType, volume) {
     activeSounds.set(soundType, sound);
     return true;
   }
-}
-
-export function updateAllSoundsButtonText(sounds, activeSounds) {
-  const allSoundsButton = document.getElementById("all-sounds-toggle");
-  const allSoundsOn = Object.keys(sounds).every((soundType) =>
-    activeSounds.has(soundType)
-  );
-  allSoundsButton.textContent = allSoundsOn
-    ? "All Sounds On"
-    : "All Sounds Off";
 }

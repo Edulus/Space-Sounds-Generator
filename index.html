@@ -7,10 +7,24 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <canvas id="starfield"></canvas>
+    <canvas id="visualizers"></canvas>
     <h1>Space Sounds Generator</h1>
-    <div class="control-panel">
-      <button id="all-sounds-toggle" class="big-button">All Sounds On</button>
-
+    <div class="button-container" id="soundButtons">
+      <button id="asteroid-doppler">Asteroid Doppler</button>
+      <button id="star-twinkle"><span>Star Twinkle</span></button>
+      <button id="gravity-well">Gravity Well</button>
+      <button id="nebula-resonance">Nebula Resonance</button>
+      <button id="cosmic-pulsar">Cosmic Pulsar</button>
+      <button id="quasar-pulse"><span>Quasar Pulse</span></button>
+      <button id="quantum-flux">Quantum Flux</button>
+      <button id="alien-transmission" class="space-button alien-signal">
+        Alien Signal
+      </button>
+      <button id="dark-energy-hum">Dark Energy Hum</button>
+    </div>
+    <div class="bottom-controls">
+      <button id="all-sounds-toggle" class="big-button big-button-on">All Sounds On</button>
       <div class="volume-control-container">
         <label for="volume-control">Volume</label>
         <div class="volume-slider-container">
@@ -26,19 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="button-container" id="soundButtons">
-      <button id="asteroid-doppler">Asteroid Doppler</button>
-      <button id="star-twinkle"><span>Star Twinkle</span></button>
-      <button id="gravity-well">Gravity Well</button>
-      <button id="nebula-resonance">Nebula Resonance</button>
-      <button id="cosmic-pulsar">Cosmic Pulsar</button>
-      <button id="quasar-pulse"><span>Quasar Pulse</span></button>
-      <button id="quantum-flux">Quantum Flux</button>
-      <button id="alien-transmission" class="space-button alien-signal">
-        Alien Signal
-      </button>
-      <button id="dark-energy-hum">Dark Energy Hum</button>
-    </div>
+    <script src="starfield.js"></script>
     <script type="module" src="main.js"></script>
   </body>
 </html>

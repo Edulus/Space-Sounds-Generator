@@ -12,12 +12,42 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
+  padding-top: 1rem;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
   overflow-x: hidden;
+  position: relative;
+}
+
+#starfield,
+#visualizers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  display: block;
+}
+
+#starfield {
+  z-index: 0;
+  background: radial-gradient(ellipse at center, #050018 0%, #000 70%);
+}
+
+#visualizers {
+  z-index: 1;
+}
+
+h1,
+.bottom-controls,
+.button-container,
+.volume-control-container {
+  position: relative;
+  z-index: 2;
 }
 
 h1 {
@@ -26,17 +56,21 @@ h1 {
   text-shadow: 0 0 10px #00ffff;
 }
 
-.control-panel {
+.bottom-controls {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  margin-bottom: 2rem;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
+
 
 .volume-control-container {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  margin: 0;
 }
 
 .volume-control-container label {
@@ -121,6 +155,7 @@ h1 {
   gap: 1rem;
   max-width: 600px;
   padding: 1rem;
+  margin-top: 21rem;
 }
 
 button {
@@ -135,9 +170,9 @@ button {
 }
 
 .big-button {
-  width: 150px;
-  height: 150px;
-  font-size: 1.2rem;
+  width: 90px;
+  height: 90px;
+  font-size: 0.65rem;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
@@ -148,6 +183,7 @@ button {
   position: relative;
   font-family: "Orbitron", sans-serif;
   letter-spacing: 1px;
+  flex-shrink: 0;
 }
 
 .big-button-on {
