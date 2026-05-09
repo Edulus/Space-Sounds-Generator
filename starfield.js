@@ -44,12 +44,15 @@ function spawnUfo() {
   const fromLeft = Math.random() < 0.5;
   const y = 60 + Math.random() * (H * 0.5);
   const speed = 0.6 + Math.random() * 0.8;
+  const saucerOnScreen = ufos.some((u) => u.emoji === "🛸");
+  const choices = saucerOnScreen ? ["🚀", "👾"] : ["🛸", "🚀", "👾"];
+  const emoji = choices[Math.floor(Math.random() * choices.length)];
   ufos.push({
     x: fromLeft ? -40 : W + 40,
     y,
     vx: fromLeft ? speed : -speed,
     bobPhase: Math.random() * Math.PI * 2,
-    emoji: Math.random() < 0.85 ? "🛸" : Math.random() < 0.5 ? "🚀" : "👽",
+    emoji,
     size: 22 + Math.random() * 14,
   });
 }
