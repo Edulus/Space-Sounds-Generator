@@ -41,19 +41,45 @@ function spawnComet() {
 }
 
 function spawnUfo() {
+  const saucerOnScreen = ufos.some((u) => u.emoji === "🛸");
+  const rocketOnScreen = ufos.some((u) => u.emoji === "🚀");
+  const choices = ["🛸", "🚀", "👾"].filter(
+    (e) => !(e === "🛸" && saucerOnScreen) && !(e === "🚀" && rocketOnScreen)
+  );
+  if (choices.length === 0) return;
+  const emoji = choices[Math.floor(Math.random() * choices.length)];
+  const size = 22 + Math.random() * 14;
+
+  if (emoji === "🚀") {
+    // launch from lower-left, climb up and to the right
+    const speed = 1.2 + Math.random() * 0.8;
+    ufos.push({
+      x: -40,
+      y: H + 40,
+      vx: speed,
+      vy: -speed * 0.85,
+      bobPhase: 0,
+      bob: false,
+      emoji,
+      size,
+      angled: true,
+    });
+    return;
+  }
+
   const fromLeft = Math.random() < 0.5;
   const y = 60 + Math.random() * (H * 0.5);
   const speed = 0.6 + Math.random() * 0.8;
-  const saucerOnScreen = ufos.some((u) => u.emoji === "🛸");
-  const choices = saucerOnScreen ? ["🚀", "👾"] : ["🛸", "🚀", "👾"];
-  const emoji = choices[Math.floor(Math.random() * choices.length)];
   ufos.push({
     x: fromLeft ? -40 : W + 40,
     y,
     vx: fromLeft ? speed : -speed,
+    vy: 0,
     bobPhase: Math.random() * Math.PI * 2,
+    bob: true,
     emoji,
-    size: 22 + Math.random() * 14,
+    size,
+    angled: false,
   });
 }
 
@@ -117,16 +143,30 @@ function frame(now) {
   for (let i = ufos.length - 1; i >= 0; i--) {
     const u = ufos[i];
     u.x += u.vx;
-    u.bobPhase += 0.04;
-    const y = u.y + Math.sin(u.bobPhase) * 8;
+    u.y += u.vy;
+    let drawY = u.y;
+    if (u.bob) {
+      u.bobPhase += 0.04;
+      drawY += Math.sin(u.bobPhase) * 8;
+    }
     ctx.save();
     ctx.globalAlpha = 0.85;
     ctx.font = `${u.size}px serif`;
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
-    ctx.fillText(u.emoji, u.x, y);
+    if (u.angled) {
+      // The 🚀 glyph points up-right by default; rotate so its tail aligns with
+      // the trajectory (flame pushes from lower-left).
+      ctx.translate(u.x, drawY);
+      ctx.rotate(Math.atan2(u.vy, u.vx) + Math.PI / 4);
+      ctx.fillText(u.emoji, 0, 0);
+    } else {
+      ctx.fillText(u.emoji, u.x, drawY);
+    }
     ctx.restore();
-    if (u.x < -60 || u.x > W + 60) ufos.splice(i, 1);
+    if (u.x < -60 || u.x > W + 60 || u.y < -60 || u.y > H + 60) {
+      ufos.splice(i, 1);
+    }
   }
 
   // random spawns
