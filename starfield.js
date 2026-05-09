@@ -63,6 +63,25 @@ function spawnUfo() {
       emoji,
       size,
       angled: true,
+      alpha: 0.85,
+    });
+    return;
+  }
+
+  if (emoji === "👾") {
+    // descend from the top with slight horizontal drift
+    const speed = 0.7 + Math.random() * 0.6;
+    ufos.push({
+      x: 60 + Math.random() * (W - 120),
+      y: -40,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: speed,
+      bobPhase: Math.random() * Math.PI * 2,
+      bob: true,
+      emoji,
+      size,
+      angled: false,
+      alpha: 1,
     });
     return;
   }
@@ -80,6 +99,7 @@ function spawnUfo() {
     emoji,
     size,
     angled: false,
+    alpha: 0.85,
   });
 }
 
@@ -150,7 +170,7 @@ function frame(now) {
       drawY += Math.sin(u.bobPhase) * 8;
     }
     ctx.save();
-    ctx.globalAlpha = 0.85;
+    ctx.globalAlpha = u.alpha ?? 0.85;
     ctx.font = `${u.size}px serif`;
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
