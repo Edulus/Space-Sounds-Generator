@@ -209,37 +209,112 @@ const drawers = {
     ctx.shadowBlur = 0;
   },
 
-  "quasar-pulse": (t) => {
-    // jets
+  "quasar-pulse": (t, state) => {
+    if (!state.pulses) {
+      state.pulses = [];
+      state.lastSpawn = 0;
+    }
     const jetLen = Math.max(W, H);
+
+    // diffuse halo
+    const halo = ctx.createRadialGradient(cx(), cyUp(), 0, cx(), cyUp(), 180);
+    halo.addColorStop(0, "rgba(180,200,255,0.18)");
+    halo.addColorStop(0.4, "rgba(120,80,200,0.08)");
+    halo.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = halo;
+    ctx.beginPath();
+    ctx.arc(cx(), cyUp(), 180, 0, Math.PI * 2);
+    ctx.fill();
+
+    // jets — narrow at core, widening outward, electric blue-violet
     for (const dir of [-1, 1]) {
       const grad = ctx.createLinearGradient(cx(), cyUp(), cx(), cyUp() + dir * jetLen);
-      grad.addColorStop(0, "rgba(255,255,255,0.9)");
-      grad.addColorStop(0.2, "rgba(120,255,140,0.6)");
-      grad.addColorStop(1, "rgba(0,80,0,0)");
+      grad.addColorStop(0, "rgba(230,240,255,0.95)");
+      grad.addColorStop(0.1, "rgba(160,190,255,0.7)");
+      grad.addColorStop(0.4, "rgba(110,90,230,0.4)");
+      grad.addColorStop(1, "rgba(40,20,90,0)");
       ctx.fillStyle = grad;
-      const wob = Math.sin(t * 2 + dir) * 6;
+      const wob = Math.sin(t * 2 + dir) * 4;
       ctx.beginPath();
-      ctx.moveTo(cx() - 20, cyUp());
-      ctx.lineTo(cx() + 20, cyUp());
-      ctx.lineTo(cx() + 60 + wob, cyUp() + dir * jetLen);
-      ctx.lineTo(cx() - 60 + wob, cyUp() + dir * jetLen);
+      ctx.moveTo(cx() - 6, cyUp());
+      ctx.lineTo(cx() + 6, cyUp());
+      ctx.lineTo(cx() + 70 + wob, cyUp() + dir * jetLen);
+      ctx.lineTo(cx() - 70 + wob, cyUp() + dir * jetLen);
       ctx.closePath();
       ctx.fill();
     }
-    // pulsing core energy rings
-    const pulse = ((t * 0.5) % 1);
-    ctx.strokeStyle = `rgba(0,255,80,${1 - pulse})`;
-    ctx.lineWidth = 3;
+
+    // spawn plasma pulses streaming outward along both jets
+    if (t - state.lastSpawn > 0.35) {
+      state.lastSpawn = t;
+      for (const dir of [-1, 1]) {
+        state.pulses.push({
+          dir,
+          age: 0,
+          life: 1.6,
+          jitter: (Math.random() - 0.5) * 8,
+          bright: 0.7 + Math.random() * 0.3,
+        });
+      }
+    }
+    for (let i = state.pulses.length - 1; i >= 0; i--) {
+      const p = state.pulses[i];
+      p.age += 0.016;
+      if (p.age > p.life) {
+        state.pulses.splice(i, 1);
+        continue;
+      }
+      const prog = p.age / p.life;
+      // accelerating outward
+      const dist = prog * prog * jetLen * 1.05;
+      const y = cyUp() + p.dir * dist;
+      const r = 5 + prog * 6;
+      const a = (1 - prog) * p.bright;
+      ctx.fillStyle = `rgba(200,220,255,${a})`;
+      ctx.shadowBlur = 18;
+      ctx.shadowColor = "#7090ff";
+      ctx.beginPath();
+      ctx.arc(cx() + p.jitter, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    // tilted accretion disk: hot inner → cool outer
+    ctx.save();
+    ctx.translate(cx(), cyUp());
+    ctx.rotate(0.18);
+    const diskGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 78);
+    diskGrad.addColorStop(0, "rgba(255,255,255,0.95)");
+    diskGrad.addColorStop(0.12, "rgba(255,245,200,0.85)");
+    diskGrad.addColorStop(0.35, "rgba(255,180,80,0.7)");
+    diskGrad.addColorStop(0.65, "rgba(220,90,40,0.45)");
+    diskGrad.addColorStop(1, "rgba(120,30,10,0)");
+    ctx.fillStyle = diskGrad;
     ctx.beginPath();
-    ctx.ellipse(cx(), cyUp(), 30 + pulse * 80, 12 + pulse * 30, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    // bright core
-    ctx.fillStyle = "rgba(255,255,255,0.95)";
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = "#0f0";
+    ctx.ellipse(0, 0, 78, 22, 0, 0, Math.PI * 2);
+    ctx.fill();
+    // swirling streaks — inner faster than outer (differential rotation)
+    for (let i = 0; i < 7; i++) {
+      const r = 14 + i * 9;
+      const speed = 2.2 - i * 0.22;
+      const ang = t * speed + i * 0.9;
+      const x = Math.cos(ang) * r;
+      const y = Math.sin(ang) * r * 0.28;
+      const hue = 50 - i * 6;
+      const a = 0.55 - i * 0.06;
+      ctx.fillStyle = `hsla(${hue}, 95%, ${80 - i * 5}%, ${a})`;
+      ctx.beginPath();
+      ctx.arc(x, y, 3.5 - i * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // tiny brilliant blue-white core
+    ctx.shadowBlur = 35;
+    ctx.shadowColor = "#b0d0ff";
+    ctx.fillStyle = "rgba(240,248,255,1)";
     ctx.beginPath();
-    ctx.arc(cx(), cyUp(), 18, 0, Math.PI * 2);
+    ctx.arc(cx(), cyUp(), 4, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
   },

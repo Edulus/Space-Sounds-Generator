@@ -472,45 +472,28 @@ button {
 }
 
 #quasar-pulse {
-  background-color: #0a0218;
-  color: #fff7d0;
+  background-color: #001005;
+  color: #aaffaa;
   position: relative;
   overflow: hidden;
   border: none;
-  isolation: isolate;
-  text-shadow: 0 0 3px #000, 0 0 6px #ff9800, 0 0 2px #000;
-  animation: quasar-pulse 2.5s infinite;
-}
-
-#quasar-pulse::before {
-  content: "";
-  position: absolute;
-  inset: -10%;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'><g transform='rotate(-25)'><polygon points='-3,-2 -3,2 -45,12 -45,-12' fill='%23fbe57b'/><polygon points='3,-2 3,2 45,12 45,-12' fill='%23fbe57b'/><ellipse cx='0' cy='0' rx='38' ry='13' fill='none' stroke='%239c27b0' stroke-width='6'/><circle cx='0' cy='0' r='15' fill='%23ff9800'/><circle cx='0' cy='0' r='8' fill='%23ffeb3b'/></g></svg>");
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><linearGradient id='j' x1='50%25' y1='0%25' x2='50%25' y2='100%25'><stop offset='0%25' stop-color='%23ffffff' stop-opacity='0'/><stop offset='25%25' stop-color='%2300ff80' stop-opacity='0.45'/><stop offset='50%25' stop-color='%23ffffff' stop-opacity='0.95'/><stop offset='75%25' stop-color='%2300ff80' stop-opacity='0.45'/><stop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/></linearGradient></defs><polygon points='28,0 72,0 53,50 72,100 28,100 47,50' fill='url(%23j)'/></svg>"),
+    radial-gradient(ellipse 35% 18% at 50% 50%, #ffffff 0%, #00ff80 25%, rgba(0, 80, 0, 0) 70%);
+  background-size: 100% 100%, 100% 100%;
+  background-position: center, center;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  z-index: -1;
-  animation: quasar-spin 6s linear infinite;
-  transform-origin: center;
-}
-
-@keyframes quasar-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  text-shadow: 0 0 3px #000, 0 0 6px #00ff80;
+  animation: quasar-pulse 2.5s infinite;
 }
 
 @keyframes quasar-pulse {
   0%, 100% {
-    box-shadow: 0 0 6px rgba(255, 152, 0, 0.45), inset 0 0 8px rgba(156, 39, 176, 0.35);
+    box-shadow: 0 0 6px rgba(0, 255, 120, 0.5), inset 0 0 8px rgba(0, 255, 120, 0.4);
   }
   50% {
-    box-shadow: 0 0 18px rgba(255, 152, 0, 0.85), inset 0 0 14px rgba(156, 39, 176, 0.6);
+    box-shadow: 0 0 18px rgba(0, 255, 120, 0.9), inset 0 0 14px rgba(0, 255, 120, 0.7);
   }
-}
-
-#quasar-pulse:hover::before {
-  animation-duration: 2s;
 }
 
 #quasar-pulse:hover {
