@@ -43,7 +43,7 @@ function spawnComet() {
 function spawnUfo() {
   const saucerOnScreen = ufos.some((u) => u.emoji === "🛸");
   const rocketOnScreen = ufos.some((u) => u.emoji === "🚀");
-  const choices = ["🛸", "🚀", "👾"].filter(
+  const choices = ["🛸", "🚀", "🚀", "🚀", "👾"].filter(
     (e) => !(e === "🛸" && saucerOnScreen) && !(e === "🚀" && rocketOnScreen)
   );
   if (choices.length === 0) return;
