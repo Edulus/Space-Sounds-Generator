@@ -279,10 +279,11 @@ const drawers = {
     }
     ctx.shadowBlur = 0;
 
-    // tilted accretion disk: hot inner → cool outer
+    // tilted accretion disk: hot inner → cool outer, with a slow rocking tilt
     ctx.save();
     ctx.translate(cx(), cyUp());
-    ctx.rotate(0.18);
+    const tilt = 0.18 + Math.sin(t * 0.7) * 0.18;
+    ctx.rotate(tilt);
     const diskGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, 78);
     diskGrad.addColorStop(0, "rgba(255,255,255,0.95)");
     diskGrad.addColorStop(0.12, "rgba(255,245,200,0.85)");
@@ -293,18 +294,18 @@ const drawers = {
     ctx.beginPath();
     ctx.ellipse(0, 0, 78, 22, 0, 0, Math.PI * 2);
     ctx.fill();
-    // swirling streaks — inner faster than outer (differential rotation)
-    for (let i = 0; i < 7; i++) {
-      const r = 14 + i * 9;
-      const speed = 2.2 - i * 0.22;
+    // swirling streaks — extend well beyond the disk; inner laps outer
+    for (let i = 0; i < 12; i++) {
+      const r = 14 + i * 14;
+      const speed = 2.4 - i * 0.16;
       const ang = t * speed + i * 0.9;
       const x = Math.cos(ang) * r;
       const y = Math.sin(ang) * r * 0.28;
-      const hue = 50 - i * 6;
-      const a = 0.55 - i * 0.06;
-      ctx.fillStyle = `hsla(${hue}, 95%, ${80 - i * 5}%, ${a})`;
+      const hue = 50 - i * 4;
+      const a = Math.max(0.08, 0.6 - i * 0.045);
+      ctx.fillStyle = `hsla(${hue}, 95%, ${80 - i * 3}%, ${a})`;
       ctx.beginPath();
-      ctx.arc(x, y, 3.5 - i * 0.25, 0, Math.PI * 2);
+      ctx.arc(x, y, Math.max(1.2, 3.5 - i * 0.2), 0, Math.PI * 2);
       ctx.fill();
     }
     ctx.restore();
