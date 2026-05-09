@@ -477,14 +477,9 @@ button {
   overflow: hidden;
   border: none;
   background-image:
-    linear-gradient(to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(120, 255, 140, 0.35) 35%,
-      rgba(255, 255, 255, 0.85) 50%,
-      rgba(120, 255, 140, 0.35) 65%,
-      rgba(0, 0, 0, 0) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><linearGradient id='j' x1='50%25' y1='0%25' x2='50%25' y2='100%25'><stop offset='0%25' stop-color='%23ffffff' stop-opacity='0'/><stop offset='25%25' stop-color='%2300ff80' stop-opacity='0.45'/><stop offset='50%25' stop-color='%23ffffff' stop-opacity='0.95'/><stop offset='75%25' stop-color='%2300ff80' stop-opacity='0.45'/><stop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/></linearGradient></defs><polygon points='28,0 72,0 53,50 72,100 28,100 47,50' fill='url(%23j)'/></svg>"),
     radial-gradient(ellipse 35% 18% at 50% 50%, #ffffff 0%, #00ff80 25%, rgba(0, 80, 0, 0) 70%);
-  background-size: 18% 100%, 100% 100%;
+  background-size: 100% 100%, 100% 100%;
   background-position: center, center;
   background-repeat: no-repeat;
   text-shadow: 0 0 3px #000, 0 0 6px #00ff80;
